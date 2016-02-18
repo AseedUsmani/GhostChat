@@ -1,6 +1,7 @@
 package com.ghostriley.sgt.ghostchat.UI;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ghostriley.sgt.ghostchat.utils.ParseConstants;
 import com.ghostriley.sgt.ghostchat.R;
@@ -54,12 +57,16 @@ public class FriendsFragment extends ListFragment {
                 if (e == null) {
                     String[] usernames = new String[mFriends.size()];
                     int i = 0;
+
                     for (ParseUser user : mFriends) {
                         usernames[i] = user.getUsername();
                         i++;
                     }
                     ArrayAdapter adapter = new ArrayAdapter(getListView().getContext(), android.R.layout.simple_list_item_1, usernames);
                     setListAdapter(adapter);
+
+
+
                 } else {
                     Log.e(TAG, e.getMessage());
                     AlertDialog.Builder builder = new AlertDialog.Builder(getListView().getContext());
@@ -71,5 +78,27 @@ public class FriendsFragment extends ListFragment {
                 }
             }
         });
+
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        String[] username = new String[mFriends.size()];
+        String[] userId = new String[mFriends.size()];
+        int i = 0;
+
+        for (ParseUser user : mFriends) {
+            userId[i] = user.getObjectId();
+            username[i]=user.getUsername();
+            i++;
+        }
+
+        Intent intent=new Intent(getContext(), SendTextActivity.class);
+        intent.putExtra("Name", username[position]);
+        intent.putExtra("ID", userId[position]);
+        startActivity(intent);
+
     }
 }

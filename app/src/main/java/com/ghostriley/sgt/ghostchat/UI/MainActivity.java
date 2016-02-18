@@ -90,9 +90,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                     startActivityForResult(chooseVideoIntent, PICK_VIDEO_REQUEST);
                     break;
 
-                case 4:
-                    Intent sendTextIntent=new Intent(MainActivity.this, SendTextActivity.class);
-                    startActivity(sendTextIntent);
             }
         }
 
